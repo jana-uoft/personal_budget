@@ -1,22 +1,22 @@
 # RAILS
 
 # Ignore bundler config.
-/.bundle
+budget_api/.bundle
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
-!/log/.keep
-!/tmp/.keep
+budget_api/log/*
+budget_api/tmp/*
+!budget_api/log/.keep
+!budget_api/tmp/.keep
 
-.byebug_history
+budget-api/.byebug_history
 
 
 
 # REACT
 
 # Ignore node module dependencies
-/node_modules
+budget_app/node_modules
 
 # Ignore production build
-/build
+budget_app/build
