@@ -18,7 +18,7 @@ RailsJwtAuth.setup do |config|
   #config.jwt_issuer = 'RailsJwtAuth'
 
   # number of simultaneously sessions for an user
-  #config.simultaneously_sessions = 2
+  config.simultaneously_sessions = 1
 
   # mailer sender
   config.mailer_sender = 'budget@jana19.org'
