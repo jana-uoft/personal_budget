@@ -1,0 +1,22 @@
+# RAILS
+
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+.byebug_history
+
+
+
+# REACT
+
+# Ignore node module dependencies
+/node_modules
+
+# Ignore production build
+/build
