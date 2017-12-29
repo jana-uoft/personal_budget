@@ -7,4 +7,12 @@ class Group
 
   embedded_in :budget
   embeds_many :categories
+
+  before_create :edit_ID
+
+  private
+  def edit_ID
+    self.id = "Group_"+self.id.to_s unless self.id.to_s[0] == "G"
+  end
+
 end

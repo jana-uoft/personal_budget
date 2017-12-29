@@ -4,20 +4,24 @@ class Budget
 
   field :name, type: String
   field :start_date, type: Date, default: ->{ Date.today }
-  field :payees, type: Hash, default: ->{ {} }  # {name: category}
+  field :payees, type: Hash, default: ->{ {} } # {name: category}
   field :accountIDs, type: Array, default: [] # used for maintaining an order
   field :groupIDs, type: Array, default: [] # used for maintaining an order
   
   belongs_to :user
-  has_many :accounts
+  has_many :accounts, dependent: :destroy
   embeds_many :groups
 
   validates_uniqueness_of :name, :message => "Budget name with: '%{value}', already exists.", scope: :user
 
+  before_create :edit_ID
   after_create :create_default_categories
-  after_update :update_category_budgeted_months, if: :start_date_changed?
 
   private
+  def edit_ID
+    self.id = "Budget_"+self.id.to_s unless self.id.to_s[0] == "B"
+  end
+
   def create_default_categories
     defaultCategories = [ 
       {
@@ -76,9 +80,7 @@ class Budget
       group = Group.create(name: groupParams["Group"], budget: self)
       self.groupIDs.push(group.id.to_s)
       groupParams["Categories"].each do |categoryParams|
-        category = Category.new(name: categoryParams["name"], group: group)
-        category.budgeted = generate_budget_months(self.start_date)
-        category.save
+        category = Category.create(name: categoryParams["name"], group: group)
         group.categoryIDs.push(category.id.to_s)
       end
       group.save
@@ -86,19 +88,5 @@ class Budget
     end
   end
 
-  def generate_budget_months(start_date, budgeted={})
-    (start_date..1.month.from_now).select{ |date| date.day==1 }.each do |date|
-      budgeted[date.to_s(:db)] = 0.00 unless budgeted.key?(date.to_s(:db))
-    end
-    return budgeted
-  end
 
-  def update_category_budgeted_months
-    self.groups.each do |group|
-      group.categories.each do |category|
-        category.budgeted = generate_budget_months(self.start_date, category.budgeted)
-        category.save
-      end
-    end
-  end
 end

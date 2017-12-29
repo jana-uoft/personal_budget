@@ -12,4 +12,12 @@ class Transaction
 
   belongs_to :account
   belongs_to :category
+
+  before_create :edit_ID
+
+  private
+  def edit_ID
+    self.id = "Transaction_"+self.id.to_s unless self.id.to_s[0] == "T"
+  end
+
 end

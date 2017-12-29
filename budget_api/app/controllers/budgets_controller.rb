@@ -1,54 +1,97 @@
 class BudgetsController < ApplicationController
   before_action :authenticate!
-  before_action :set_budget, only: [:show, :update, :destroy]
+  before_action :set_budget, only: [:show, :update, :destroy, :updatePayee, :combinePayees, :deletePayees]
 
   # GET /budgets
-  # GET /budgets.json
   def index
     @budgets = Budget.all
   end
 
   # GET /budgets/1
-  # GET /budgets/1.json
   def show
   end
 
   # POST /budgets
-  # POST /budgets.json
   def create
     @budget = Budget.new(budget_params)
     @budget.user = current_user
     if @budget.save
-      render :show, status: :created, location: @budget
+      render :show, status: :created
     else
       render json: @budget.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /budgets/1
-  # PATCH/PUT /budgets/1.json
   def update
-    if @budget.update(budget_params)
-      render :show, status: :ok, location: @budget
-    else
-      render json: @budget.errors, status: :unprocessable_entity
-    end
+    render json: @budget.errors, status: :unprocessable_entity unless @budget.update(budget_params)
   end
 
   # DELETE /budgets/1
-  # DELETE /budgets/1.json
   def destroy
     @budget.destroy
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_budget
-      @budget = Budget.find(params[:id])
+  # PATCH/PUT /budgets/1/payees
+  def updatePayee
+    payees = update_payee_params.to_h[:old_names]
+    new_name = update_payee_params.to_h[:new_name]
+    category = update_payee_params.to_h[:category]
+    affected_transactions = []
+    payees.each do |name|
+      if @budget.payees.key?(name)
+        @budget.payees.delete(name)
+        affected_transactions += Transaction.where(payee: name)
+      end
     end
+    @budget.payees[new_name] = category
+    @budget.save
+    affected_transactions.update_all(payee: new_name) unless affected_transactions.empty?
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def budget_params
-      params.require(:budget).permit(:name, :start_date)
+  # PATCH/PUT /budgets/1/combinePayees
+  def combinePayees
+    payees = update_payee_params.to_h[:old_names]
+    new_name = update_payee_params.to_h[:new_name]
+    category = update_payee_params.to_h[:category]
+    affected_transactions = []
+    payees.each do |name|
+      if @budget.payees.key?(name)
+        @budget.payees.delete(name)
+        affected_transactions += Transaction.where(payee: name)
+      end
     end
+    @budget.payees[new_name] = category
+    @budget.save
+    affected_transactions.update_all(payee: new_name) unless affected_transactions.empty?
+  end
+
+  # DELETE /budgets/1/payees
+  def deletePayees
+    payees = update_payee_params.to_h[:payees]
+    new_name = update_payee_params.to_h[:new_name]
+    affected_transactions = []
+    payees.each do |name|
+      if @budget.payees.key?(name)
+        @budget.payees.delete(name)
+        affected_transactions += Transaction.where(payee: name)
+      end
+    end
+    affected_transactions.update_all(payee: new_name) unless affected_transactions.empty?
+    @budget.save
+  end
+
+  private
+  def set_budget
+    @budget = Budget.find(params[:id])
+  end
+
+  def budget_params
+    params.require(:budget).permit(:name, :start_date, :accountIDs=>[], :accountIDs=>[])
+  end
+
+  def update_payee_params
+    params.permit(:payees=>[], :new_name, :category)
+  end
+
 end
