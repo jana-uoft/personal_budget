@@ -4,4 +4,6 @@ class User
   include RailsJwtAuth::Confirmable
   include RailsJwtAuth::Recoverable
   include RailsJwtAuth::Trackable
+
+  has_many :budgets, dependent: :destroy
 end
