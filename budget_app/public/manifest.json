@@ -1,0 +1,15 @@
+{
+  "short_name": "Budget App",
+  "name": "Personal Budgeting App",
+  "description": "The app that helps you build up a personal budget inspired from YNAB.",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "sizes": "64x64 32x32 24x24 16x16"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
