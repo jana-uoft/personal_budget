@@ -1,7 +1,6 @@
 #!groovy
 
-node('harmonic-st-patrick') {
-  try {
+node {
     stage ('Prepare') {
       try {
         git branch: 'master', url: 'git@github.com:jana-uoft/personal_budget.git'
@@ -9,7 +8,8 @@ node('harmonic-st-patrick') {
       catch (e) { if (!errorOccurred) {errorOccurred = e} }
     }
 
-    stage ('Build React') {
+
+    stage ('Deploy React') {
       try {
         nodejs('NodeJS8.2.1') {
           dir ('budget_app') {
@@ -17,30 +17,28 @@ node('harmonic-st-patrick') {
             sh 'yarn build'
           }
         }
+        sh 'sudo cp -t /var/www/budget.jana19.org/public_html/ budget_app/build/* -f -r'
+        sh 'sudo mkdir -p /var/www/budget.jana19.org/public_html/mode_modules'
+        sh 'sudo cp -t /var/www/budget.jana19.org/public_html/node_modules budget_app/node_modules -f -r'
       }
       catch (e) { if (!errorOccurred) {errorOccurred = e} }
     }
 
-    stage ('Setup Web Folder Stucture') {
+
+    stage ('Deploy Rails') {
       try {
-        echo "Copy React public build into Rails public folder"
-        sh 'cp budget_app/build/* ./budget_api/public/ -f -r'
-        echo "Copy node modules folder into Rails public directory"
-        sh 'cp budget_app/node_modules ./budget_api/public/node_modules -f -r'
+        sh 'sudo cp -t /var/www/budget-api.jana19.org/public_html/ budget_api/* -f -r'
+        dir ('/var/www/budget-api.jana19.org/public_html') {
+          sh 'bundle install --deployment --without development test'
+          sh 'echo "production:\n\tclients:\n\t\tdefault:\n\t\t\tdatabase: budget_api_production\n\t\t\thosts:\n\t\t\t\t- localhost:27017" >> config/mongoid.yml'
+          sh 'echo "production:\n\tsecret_key_base: `bundle exec rake secret`" >> config/mongoid.yml'
+        }
       }
       catch (e) { if (!errorOccurred) {errorOccurred = e} }
     }
 
-    stage ('Deploy') {
-      try {
-        // sh 'sudo cp -t /var/www/budget.jana19.org/public_html/ budget_api/* -f -r'
-        sh 'sudo cp -t /var/www/budget.jana19.org/public_html/ budget_api/public/* -f -r'
-      }
-      catch (e) { if (!errorOccurred) {errorOccurred = e} }
-    }
 
     stage ('Clean') {
       deleteDir()
     }
-  }
 }
