@@ -1,6 +1,6 @@
 #!groovy
 
-node('harmonic-st-patrick') {
+node {
   stage ('Prepare') {
     try {
       git branch: 'master', url: 'git@github.com:jana-uoft/personal_budget.git'
