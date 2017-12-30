@@ -8,10 +8,10 @@ class Group
   embedded_in :budget
   embeds_many :categories
 
-  before_create :edit_ID
+  before_create :edit_id
 
   private
-  def edit_ID
+  def edit_id
     self.id = "Group_"+self.id.to_s unless self.id.to_s[0] == "G"
   end
 

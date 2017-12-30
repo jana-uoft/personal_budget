@@ -24,7 +24,7 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:date, :recurring=>[:repeat, :end_on, :end_after], :account, :payee, :category, :memo, :outflow, :inflow, :cleared)
+    params.require(:transaction).permit(:date, :account, :payee, :category, :memo, :outflow, :inflow, :cleared, :recurring=>[:repeat, :end_on, :end_after])
   end
 
 end

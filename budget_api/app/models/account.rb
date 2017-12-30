@@ -13,10 +13,10 @@ class Account
 
   validates_uniqueness_of :name, :message => "Account name with: '%{value}', already exists.", scope: :budget
 
-  before_create :edit_ID
+  before_create :edit_id
 
   private
-  def edit_ID
+  def edit_id
     self.id = "Account_"+self.id.to_s unless self.id.to_s[0] == "A"
   end
 

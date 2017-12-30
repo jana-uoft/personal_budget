@@ -5,6 +5,5 @@ class ApplicationController < ActionController::API
   protected
   def error_generic(exception)
     render json: {error: exception.message}, status: :internal_server_error
-    return
   end
 end

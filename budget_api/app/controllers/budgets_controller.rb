@@ -1,6 +1,6 @@
 class BudgetsController < ApplicationController
   before_action :authenticate!
-  before_action :set_budget, only: [:show, :update, :destroy, :updatePayee, :combinePayees, :deletePayees]
+  before_action :set_budget, only: [:show, :update, :destroy, :update_payee, :combine_payees, :delete_payees]
 
   # GET /budgets
   def index
@@ -33,7 +33,7 @@ class BudgetsController < ApplicationController
   end
 
   # PATCH/PUT /budgets/1/payees
-  def updatePayee
+  def update_payee
     payees = update_payee_params.to_h[:old_names]
     new_name = update_payee_params.to_h[:new_name]
     category = update_payee_params.to_h[:category]
@@ -49,8 +49,8 @@ class BudgetsController < ApplicationController
     affected_transactions.update_all(payee: new_name) unless affected_transactions.empty?
   end
 
-  # PATCH/PUT /budgets/1/combinePayees
-  def combinePayees
+  # PATCH/PUT /budgets/1/combine_payees
+  def combine_payees
     payees = update_payee_params.to_h[:old_names]
     new_name = update_payee_params.to_h[:new_name]
     category = update_payee_params.to_h[:category]
@@ -67,7 +67,7 @@ class BudgetsController < ApplicationController
   end
 
   # DELETE /budgets/1/payees
-  def deletePayees
+  def delete_payees
     payees = update_payee_params.to_h[:payees]
     new_name = update_payee_params.to_h[:new_name]
     affected_transactions = []
@@ -87,11 +87,11 @@ class BudgetsController < ApplicationController
   end
 
   def budget_params
-    params.require(:budget).permit(:name, :start_date, :accountIDs=>[], :accountIDs=>[])
+    params.require(:budget).permit(:name, :start_date, :accountIDs=>[], :groupIDs=>[])
   end
 
   def update_payee_params
-    params.permit(:payees=>[], :new_name, :category)
+    params.permit(:new_name, :category, :payees=>[])
   end
 
 end

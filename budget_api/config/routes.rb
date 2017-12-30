@@ -12,9 +12,9 @@ Rails.application.routes.draw do
   resources :budgets
 
   # Payee Actions
-  put '/budgets/:id/payees', to: 'budgets#updatePayee'
-  put '/budgets/:id/combinePayees', to: 'budgets#combinePayees'
-  delete '/budgets/:id/payees', to: 'budgets#deletePayees'
+  put '/budgets/:id/payees', to: 'budgets#update_payee'
+  put '/budgets/:id/combinePayees', to: 'budgets#combine_payees'
+  delete '/budgets/:id/payees', to: 'budgets#delete_payees'
 
 
 end
