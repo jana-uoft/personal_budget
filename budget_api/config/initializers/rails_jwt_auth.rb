@@ -21,19 +21,19 @@ RailsJwtAuth.setup do |config|
   config.simultaneous_sessions = 1
 
   # mailer sender
-  config.mailer_sender = 'budget@jana19.org'
+  config.mailer_sender = 'noreply@budget.jana19.org'
 
   # url used to create email link with confirmation token
-  config.confirmation_url = Rails.env.production? ? 'https://budget-api.jana19.org/confirmation' : 'http://localhost:3000/confirmation'
+  config.confirmation_url = Rails.env.production? ? 'https://budget.jana19.org/confirmation' : 'http://localhost:3000/confirmation'
 
   # expiration time for confirmation tokens
   #config.confirmation_expiration_time = 1.day
 
   # url used to create email link with reset password token
-  config.reset_password_url = Rails.env.production? ? 'https://budget-api.jana19.org/reset_password' : 'http://localhost:3000/reset_password'
+  config.reset_password_url = Rails.env.production? ? 'https://budget.jana19.org/reset_password' : 'http://localhost:3000/reset_password'
 
   # url used to create email link with set password token
-  config.set_password_url = Rails.env.production? ? 'https://budget-api.jana19.org/set_password' : 'http://localhost:3000/set_password'
+  config.set_password_url = Rails.env.production? ? 'https://budget.jana19.org/set_password' : 'http://localhost:3000/set_password'
 
   # expiration time for reset password tokens
   #config.reset_password_expiration_time = 1.day
@@ -42,10 +42,10 @@ RailsJwtAuth.setup do |config|
   #config.deliver_later = false
 
   # Invitable configuration
-  # 
+  #
   # Time an invitation is valid after sent
   # config.invitation_expiration_time = 2.days
   #
   # URL used to create email link to activate invitation
-  # config.invitation_url = Rails.env.production? ? 'https://budget-api.jana19.org/accept_invitation' : 'http://localhost:3000/accept_invitation'
+  # config.invitation_url = Rails.env.production? ? 'https://budget.jana19.org/accept_invitation' : 'http://localhost:3000/accept_invitation'
 end
