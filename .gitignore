@@ -8,6 +8,7 @@ budget_api/log/*
 budget_api/tmp/*
 !budget_api/log/.keep
 !budget_api/tmp/.keep
+!budget_api/tmp/restart.txt
 
 budget-api/.byebug_history
 
