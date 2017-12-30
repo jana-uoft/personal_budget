@@ -42,4 +42,5 @@ node('harmonic-st-patrick') {
     stage ('Clean') {
       deleteDir()
     }
+  }
 }
