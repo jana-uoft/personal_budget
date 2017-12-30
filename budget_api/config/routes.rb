@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Root
+  root to: 'application#index'
+
   # Authentication Endpoints
   resource :registration, controller: 'registrations', only: [:create, :update, :destroy]
   resource :confirmation, controller: 'rails_jwt_auth/confirmations', only: [:create, :update]
