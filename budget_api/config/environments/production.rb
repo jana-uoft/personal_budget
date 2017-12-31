@@ -53,14 +53,8 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "budget_api_#{Rails.env}"
   config.action_mailer.perform_caching = false
-  # config.action_mailer.default_url_options = { :host => "budget.jana19.org" }
-  # config.action_mailer.smtp_settings = {
-  #   address: 'mailer.jana19.org',
-  #   port: 25,
-  #   enable_starttls_auto: false
-  # }
   config.action_mailer.delivery_method = :sendmail
-  config.action_mailer.default_url_options = { host: "budget.jana19.org", port: 25}
+  config.action_mailer.default_url_options = { host: "localhost", port: 587}
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
