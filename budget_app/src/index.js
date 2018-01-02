@@ -1,17 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker from './config/registerServiceWorker';
+import App from './containers/App';
+import './assets/styles/Index.css';
 
 
-ReactDOM.render(
-    <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <App />
-    </MuiThemeProvider>,
-    document.getElementById('root')
-);
-
+ReactDOM.render(<App/>, document.getElementById('root'));
 registerServiceWorker();

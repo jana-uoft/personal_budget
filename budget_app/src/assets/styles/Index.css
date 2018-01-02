@@ -1,0 +1,8 @@
+html, body {
+    height: 100vh;
+}
+
+body {
+  background: linear-gradient(178deg, #010504, #256555);
+  overflow: hidden;
+}
