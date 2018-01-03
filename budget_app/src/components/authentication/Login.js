@@ -40,21 +40,19 @@ class Login extends Component {
   }
 
 
+
+
   render() {
     let content = (
       <form onSubmit={this.submit}>
         <p>{this.props.user.messages.login.failure}</p>
-        <TextField fullWidth onChange={(e,v)=>this.onInputChange(v,"email")} name="email" floatingLabelText="E-mail" />
-        <TextField fullWidth onChange={(e,v)=>this.onInputChange(v,"password")} name="password" type="password" floatingLabelText="Password" />
+        <TextField fullWidth onChange={(e,v)=>this.onInputChange(v, "email")} name="email" type="email" floatingLabelText="E-mail" required />
+        <TextField fullWidth onChange={(e,v)=>this.onInputChange(v, "password")} name="password" type="password" floatingLabelText="Password" required />
         <br />
         <br />
-        <RaisedButton label="Submit" type="submit" name="submit" primary fullWidth />
-        <FlatButton onClick={()=>this.props.toggleComponent('login')} label={"Go back"} />
-        <FlatButton 
-          label="Forgot password?"
-          labelStyle={{color:"#a5bde0"}}
-          onClick={()=>this.props.toggleComponent('requestPasswordReset')}
-        />
+        <RaisedButton label="Login" type="submit" name="submit" primary fullWidth />
+        <FlatButton label="Go back" onClick={()=>this.props.toggleComponent('login')} />
+        <FlatButton label="Forgot password?" onClick={()=>this.props.toggleComponent('requestPasswordReset')} />
       </form>
     );
 

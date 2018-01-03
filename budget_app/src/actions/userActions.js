@@ -1,6 +1,6 @@
 export function login(session) {
   return { 
-    types: 'LOGIN',
+    type: 'LOGIN',
     payload: {
       request : {
         url: `/session`,
@@ -14,7 +14,7 @@ export function login(session) {
 
 export function register(user) {
   return { 
-    types: 'REGISTER',
+    type: 'REGISTER',
     payload: {
       request : {
         url: `/registration`,
@@ -28,7 +28,7 @@ export function register(user) {
 
 export function confirm(confirmation_token) {
   return { 
-    types: 'CONFIRM',
+    type: 'CONFIRM',
     payload: {
       request : {
         url: `/confirmation`,
@@ -60,7 +60,7 @@ export function resendConfirmation(email) {
 
 export function logout() {
   return { 
-    types: 'LOGOUT',
+    type: 'LOGOUT',
     payload: {
       request : {
         url: `/session`,
@@ -73,7 +73,7 @@ export function logout() {
 
 export function requestResetPassword(email) {
   return { 
-    types: 'REQUEST_PASSWORD_RESET',
+    type: 'REQUEST_PASSWORD_RESET',
     payload: {
       request : {
         url: `/password`,
@@ -87,7 +87,7 @@ export function requestResetPassword(email) {
 
 export function resetPassword(reset_password_token, password) {
   return { 
-    types: 'PASSWORD_RESET',
+    type: 'PASSWORD_RESET',
     payload: {
       request : {
         url: `/password`,
@@ -101,7 +101,7 @@ export function resetPassword(reset_password_token, password) {
 
 export function deleteAccount(userID) {
   return { 
-    types: 'DELETE_ACCOUNT',
+    type: 'DELETE_ACCOUNT',
     payload: {
       request : {
         url: `/users/${userID}`,

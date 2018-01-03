@@ -6,3 +6,14 @@ body {
   background: linear-gradient(178deg, #010504, #256555);
   overflow: hidden;
 }
+
+.logo {
+  animation: logo-spin infinite 60s linear;
+  height: 150px;
+}
+
+
+@keyframes logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

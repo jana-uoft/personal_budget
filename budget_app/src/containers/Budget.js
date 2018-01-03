@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../assets/images/logo.svg';
-import '../assets/styles/App.css';
+
 
 class Budget extends Component {
 

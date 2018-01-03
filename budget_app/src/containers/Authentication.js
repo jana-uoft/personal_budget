@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Login from '../components/authentication/Login';
+import logo from '../assets/images/logo.svg';
 
 
 import { 
@@ -51,14 +52,15 @@ class Authentication extends Component {
     let content;
     switch(this.state.component){
       case 'login':
-        content = <Login user={this.props.user} toggleComponent={this.toggleComponent} login={this.props.login} resendConfirmation={this.props.resendConfirmation} />;
+        content = <Login user={this.props.user} toggleComponent={this.toggleComponent} login={this.props.login} resendConfirmation={this.props.resendConfirmation} history={this.props.history} />;
         break;
       default:
         break;
     }
     return (
-      <div>
-        {content}
+      <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '1vw', paddingTop: '20vh', }}>
+        <img src={logo} className="logo" alt="logo" />
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{content}</div>
       </div>
     );
   }
