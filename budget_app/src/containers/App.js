@@ -16,7 +16,7 @@ class App extends Component {
 
   constructor(){
     super();
-    this.state = { loading: true }
+    this.state = { loading: true };
   }
 
 
@@ -30,19 +30,18 @@ class App extends Component {
     if (this.state.loading) return( <Loading /> );
 
     return (
-      <Router>
+      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
         <Provider store={store}>
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+          <Router>
             <Switch>
               <Route exact path="/" component={Authentication} />
               <Route exact path="/dashboard" component={Dashboard} />
               <Route exact path="/budget/:id" component={Budget} />
               <Route component={PageNotFound} />
             </Switch>
-          </MuiThemeProvider>
+          </Router>
         </Provider>
-      </Router>
-
+      </MuiThemeProvider>
     );
   }
 }

@@ -1,9 +1,12 @@
 export const initialState = {
   authenticated: false,
   token: "",
-  errors: {
-    login: {errorMessage: ""},
-    register: {email: "", password: ""},
-    confirmation: "",
+  messages: {
+    login: {success: "", failure: ""},
+    register: {success: "", failure: ""},
+    confirmation: {success: "", failure: ""},
+    resendConfirmation: {success: "", failure: ""},
+    requestResetPassword: {success: "", failure: ""},
+    resetPassword: {success: "", failure: ""}
   }
 }
