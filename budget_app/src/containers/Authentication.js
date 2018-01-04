@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import Login from '../components/authentication/Login';
 import logo from '../assets/images/logo.svg';
+import Notification from '../components/global/Notification';
+import Login from '../components/authentication/Login';
+import ResendConfirmation from '../components/authentication/ResendConfirmation';
 
 
 import { 
@@ -44,7 +46,7 @@ class Authentication extends Component {
 
 
   toggleComponent = (component) => {
-    this.setState({ component })
+    this.setState({ component }, ()=>this.props.clearMessages());
   }
 
 
@@ -52,13 +54,31 @@ class Authentication extends Component {
     let content;
     switch(this.state.component){
       case 'login':
-        content = <Login user={this.props.user} toggleComponent={this.toggleComponent} login={this.props.login} resendConfirmation={this.props.resendConfirmation} history={this.props.history} />;
+        content = (
+          <Login 
+            user={this.props.user} 
+            toggleComponent={this.toggleComponent} 
+            login={this.props.login} 
+            resendConfirmation={this.props.resendConfirmation} 
+            history={this.props.history}
+          />
+        );
+        break;
+      case 'resendConfirmation':
+        content = (
+          <ResendConfirmation 
+            user={this.props.user} 
+            toggleComponent={this.toggleComponent} 
+            resendConfirmation={this.props.resendConfirmation} 
+          />
+        );
         break;
       default:
         break;
     }
     return (
       <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '1vw', paddingTop: '20vh', }}>
+        <Notification />
         <img src={logo} className="logo" alt="logo" />
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{content}</div>
       </div>
@@ -69,7 +89,8 @@ class Authentication extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    notificationActive: state.global.notification.message!==""
   };
 };
 
@@ -96,6 +117,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     logout: () => {
       dispatch(logout());
+    },
+    clearMessages: () => {
+      dispatch({type: "CLEAR_MESSAGES"});
     }
   };
 };

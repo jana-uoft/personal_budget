@@ -45,7 +45,6 @@ class Login extends Component {
   render() {
     let content = (
       <form onSubmit={this.submit}>
-        <p>{this.props.user.messages.login.failure}</p>
         <TextField fullWidth onChange={(e,v)=>this.onInputChange(v, "email")} name="email" type="email" floatingLabelText="E-mail" required />
         <TextField fullWidth onChange={(e,v)=>this.onInputChange(v, "password")} name="password" type="password" floatingLabelText="Password" required />
         <br />
@@ -53,10 +52,12 @@ class Login extends Component {
         <RaisedButton label="Login" type="submit" name="submit" primary fullWidth />
         <FlatButton label="Go back" onClick={()=>this.props.toggleComponent('login')} />
         <FlatButton label="Forgot password?" onClick={()=>this.props.toggleComponent('requestPasswordReset')} />
+        <br />
+        <FlatButton label="Resend confirmation" onClick={()=>this.props.toggleComponent('resendConfirmation')} />
       </form>
     );
 
-    if (this.props.user.messages.login.failure && this.props.user.messages.login.failure.includes("unconfirmed")) {
+    if (this.props.user.messages.login.failure!=="" && this.props.user.messages.login.failure.includes("unconfirmed")) {
       content = (
         <ResendConfirmation 
           resendConfirmation={this.props.resendConfirmation}

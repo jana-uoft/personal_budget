@@ -4,6 +4,7 @@ import axiosMiddleware from 'redux-axios-middleware';
 import { client, clientOptions } from './axios';
 import localForage from 'localforage'
 import user from "../reducers/userReducer";
+import global from "../reducers/globalReducer";
 
 
 
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === 'development') {
 
 let reducers = {
   user,
+  global
 }
 
 

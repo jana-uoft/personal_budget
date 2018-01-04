@@ -5,7 +5,9 @@ export function login(session) {
       request : {
         url: `/session`,
         method: 'post',
-        data: { session }
+        data: { session },
+        successMessage: `Welcome ${session.email}`,
+        errorMessage: "The email and/or password you have entered is invalid."
       }
     }
   };
@@ -51,7 +53,9 @@ export function resendConfirmation(email) {
           confirmation: {
             email: email
           }
-        }
+        },
+        successMessage: "Confirmation email has been sent. Please check your email inbox.",
+        errorMessage: "The email you entered does not exist or is already confirmed."
       }
     }
   }

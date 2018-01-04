@@ -9,7 +9,7 @@ class ResendConfirmation extends Component {
     super(props);
     this.state = {
       message: props.message,
-      email: props.email,
+      email: props.email || "",
       submitted: false,
     };
   }
@@ -25,28 +25,28 @@ class ResendConfirmation extends Component {
     this.setState({submitted:true, message: "An email confirmation has been resent to " + this.state.email});
   }
 
+  submit = (e) => {
+    e.preventDefault();
+    this.resendConfirmation(this.state.email);
+  }
+
 
   render() {
-    let form, successButton;
-
-    if (this.props.user.messages.resendConfirmation.success) {
+    let form;
+    if (!this.props.user.messages.resendConfirmation.success || this.props.user.messages.resendConfirmation.failure) {
       form = (
         <form aria-label="resend confirmation" onSubmit={this.submit}>
-          <p>{this.props.user.messages.resendConfirmation.success}</p>
-          <TextField fullWidth value={this.state.email} onChange={(e,v)=>this.onChange(v,"email")} name="email" floatingLabelText="E-mail" />
+          <TextField fullWidth value={this.state.email} onChange={(e,v)=>this.onChange(v,"email")} name="email" type="email" floatingLabelText="E-mail" required />
           <br /><br />
-          <RaisedButton label="Resend confirmation email" primary fullWidth onClick={this.resendConfirmation} />
-          <RaisedButton default fullWidth label="Okay" onClick={()=>this.props.toggleComponent('login')} />
+          <RaisedButton label="Resend confirmation email" type="submit" name="submit" primary fullWidth />
         </form>
       );
-    } else {
-      successButton = <FlatButton default onClick={()=>this.props.toggleComponent('login')} label="Go back" />;
     }
-
     return (
       <div>
         {form}
-        {successButton}
+        <br/ >
+        <FlatButton default onClick={()=>this.props.toggleComponent('login')} label="Go back" />
       </div>
     );
   }
