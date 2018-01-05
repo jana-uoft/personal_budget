@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import logo from '../assets/images/logo.svg';
-import Notification from '../components/global/Notification';
 import Login from '../components/authentication/Login';
 import ResendConfirmation from '../components/authentication/ResendConfirmation';
 import { ToastContainer, toast } from 'react-toastify';
@@ -47,8 +46,8 @@ class Authentication extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.notification.message!=="" && this.props.notification.message!==nextProps.notification.message) 
-      toast.error(nextProps.notification.message, { position: toast.POSITION.BOTTOM_CENTER, onClose: ()=>this.props.clearNotification() });
+    if (nextProps.notification.message!=="" && this.props.notification.message!==nextProps.notification.message && nextProps.notification.type!=="SUCCESS") 
+      toast(nextProps.notification.message, {type: toast.TYPE[nextProps.notification.type], position: toast.POSITION.BOTTOM_CENTER, onClose: ()=>this.props.clearNotification() });
   }
 
   toggleComponent = (component) => {
@@ -63,6 +62,7 @@ class Authentication extends Component {
         content = (
           <Login 
             user={this.props.user} 
+            notification={this.props.notification}
             toggleComponent={this.toggleComponent} 
             login={this.props.login} 
             resendConfirmation={this.props.resendConfirmation} 
@@ -74,8 +74,10 @@ class Authentication extends Component {
         content = (
           <ResendConfirmation 
             user={this.props.user} 
+            notification={this.props.notification}
             toggleComponent={this.toggleComponent} 
             resendConfirmation={this.props.resendConfirmation} 
+            clearNotification={this.props.clearNotifications}
           />
         );
         break;

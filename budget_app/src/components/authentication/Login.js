@@ -15,12 +15,6 @@ class Login extends Component {
   }
 
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.user.messages.login.failure) {
-      this.setState({error: nextProps.user.messages.login.failure});
-    }
-  }
-
 
   componentDidUpdate() {
     if (this.props.user.authenticated) {
@@ -57,7 +51,7 @@ class Login extends Component {
       </form>
     );
 
-    if (this.props.user.messages.login.failure!=="" && this.props.user.messages.login.failure.includes("unconfirmed")) {
+    if (this.props.notification.type==="ERROR" && this.props.notification.message.includes("unconfirmed")) {
       content = (
         <ResendConfirmation 
           resendConfirmation={this.props.resendConfirmation}

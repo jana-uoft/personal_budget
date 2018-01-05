@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import { toast } from 'react-toastify';
 
 
 class ResendConfirmation extends Component {
@@ -9,8 +10,7 @@ class ResendConfirmation extends Component {
     super(props);
     this.state = {
       message: props.message,
-      email: props.email || "",
-      submitted: false,
+      email: props.email || ""
     };
   }
 
@@ -22,7 +22,6 @@ class ResendConfirmation extends Component {
 
   resendConfirmation = () => {
     this.props.resendConfirmation(this.state.email);
-    this.setState({submitted:true, message: "An email confirmation has been resent to " + this.state.email});
   }
 
   submit = (e) => {
@@ -33,7 +32,7 @@ class ResendConfirmation extends Component {
 
   render() {
     let form;
-    if (!this.props.user.messages.resendConfirmation.success || this.props.user.messages.resendConfirmation.failure) {
+    if (this.props.notification.message==="" || this.props.notification.type==="ERROR") {
       form = (
         <form aria-label="resend confirmation" onSubmit={this.submit}>
           <TextField fullWidth value={this.state.email} onChange={(e,v)=>this.onChange(v,"email")} name="email" type="email" floatingLabelText="E-mail" required />
@@ -42,6 +41,8 @@ class ResendConfirmation extends Component {
         </form>
       );
     }
+    if (this.props.notification.type==="SUCCESS") 
+      toast(this.props.notification.message, {type: toast.TYPE[this.props.notification.type], position: toast.POSITION.BOTTOM_CENTER, onClose: ()=>this.props.clearNotification() });
     return (
       <div>
         {form}
