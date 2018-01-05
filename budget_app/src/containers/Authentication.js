@@ -4,6 +4,7 @@ import logo from '../assets/images/logo.svg';
 import Notification from '../components/global/Notification';
 import Login from '../components/authentication/Login';
 import ResendConfirmation from '../components/authentication/ResendConfirmation';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 import { 
@@ -45,8 +46,13 @@ class Authentication extends Component {
   }
 
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.notification.message!=="" && this.props.notification.message!==nextProps.notification.message) 
+      toast.error(nextProps.notification.message, { position: toast.POSITION.BOTTOM_CENTER, onClose: ()=>this.props.clearNotification() });
+  }
+
   toggleComponent = (component) => {
-    this.setState({ component }, ()=>this.props.clearMessages());
+    this.setState({ component }, ()=>this.props.clearNotification());
   }
 
 
@@ -78,7 +84,7 @@ class Authentication extends Component {
     }
     return (
       <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '1vw', paddingTop: '20vh', }}>
-        <Notification />
+        <ToastContainer autoClose={false}/>
         <img src={logo} className="logo" alt="logo" />
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{content}</div>
       </div>
@@ -90,7 +96,7 @@ class Authentication extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    notificationActive: state.global.notification.message!==""
+    notification: state.global.notification
   };
 };
 
@@ -118,8 +124,8 @@ const mapDispatchToProps = (dispatch) => {
     logout: () => {
       dispatch(logout());
     },
-    clearMessages: () => {
-      dispatch({type: "CLEAR_MESSAGES"});
+    clearNotification: () => {
+      dispatch({type: "CLEAR_NOTIFICATION"});
     }
   };
 };
