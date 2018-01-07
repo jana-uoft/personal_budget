@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import logo from '../assets/images/logo.svg';
+import { ToastContainer, toast } from 'react-toastify';
+import Welcome from '../components/authentication/Welcome';
 import Login from '../components/authentication/Login';
 import ResendConfirmation from '../components/authentication/ResendConfirmation';
-import { ToastContainer, toast } from 'react-toastify';
+import RequestPasswordReset from '../components/authentication/RequestPasswordReset';
+import Register from '../components/authentication/Register';
+
+
 
 
 import { 
@@ -23,13 +28,16 @@ class Authentication extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      component: 'login',
+      component: 'welcome',
+      componentProps: {}
     }
   }
 
 
   componentDidMount() {
     const token = this.props.location.search.split('=')[1];
+    if (this.props.user.authenticated)
+      this.props.history.push("/dashboard");
     if (token) {
       if (this.props.location.pathname.includes("confirmation")){
         this.props.confirm(token);
@@ -46,49 +54,84 @@ class Authentication extends Component {
 
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.notification.message!=="" && this.props.notification.message!==nextProps.notification.message && nextProps.notification.type!=="SUCCESS") 
-      toast(nextProps.notification.message, {type: toast.TYPE[nextProps.notification.type], position: toast.POSITION.BOTTOM_CENTER, onClose: ()=>this.props.clearNotification() });
+    if (nextProps.notification.message!=="" && nextProps.notification.message!==this.props.notification.message) {
+      toast.dismiss();
+      toast(nextProps.notification.message, {
+        type: toast.TYPE[nextProps.notification.type], 
+        position: toast.POSITION.BOTTOM_CENTER, 
+        onClose: nextProps.clearNotification,  
+        autoClose: nextProps.notification.type==="SUCCESS" ? 10000 : false 
+      });
+    }
   }
 
-  toggleComponent = (component) => {
-    this.setState({ component }, ()=>this.props.clearNotification());
+  toggleComponent = (component, componentProps) => {
+    this.setState({ component, componentProps });
   }
 
 
   render() {
+
+
     let content;
     switch(this.state.component){
       case 'login':
         content = (
           <Login 
-            user={this.props.user} 
-            notification={this.props.notification}
             toggleComponent={this.toggleComponent} 
+            componentProps={this.state.componentProps || {}}
             login={this.props.login} 
-            resendConfirmation={this.props.resendConfirmation} 
-            history={this.props.history}
+            notification={this.props.notification}
           />
         );
         break;
       case 'resendConfirmation':
         content = (
           <ResendConfirmation 
-            user={this.props.user} 
-            notification={this.props.notification}
             toggleComponent={this.toggleComponent} 
+            componentProps={this.state.componentProps || {}}
             resendConfirmation={this.props.resendConfirmation} 
-            clearNotification={this.props.clearNotifications}
+          />
+        );
+        break;
+      case 'requestResetPassword':
+        content = (
+          <RequestPasswordReset 
+            toggleComponent={this.toggleComponent} 
+            componentProps={this.state.componentProps || {}}
+            requestResetPassword={this.props.requestResetPassword} 
+          />
+        );
+        break;
+      case 'register':
+        content = (
+          <Register 
+            toggleComponent={this.toggleComponent} 
+            componentProps={this.state.componentProps || {}}
+            register={this.props.register} 
+            notification={this.props.notification}
           />
         );
         break;
       default:
+        content = (<Welcome toggleComponent={this.toggleComponent} />);
         break;
     }
+
+    let footer = (
+      <p style={{color: "#FFF", bottom: "0%", position: "fixed"}}>
+        <a href="https://www.jana19.org/" target="_blank" rel="noopener noreferrer" style={{textDecoration: "none", color: "inherit"}}>© Jana Rajakumar</a>
+      </p>
+    );
+
     return (
-      <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '1vw', paddingTop: '20vh', }}>
-        <ToastContainer autoClose={false}/>
+      <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '1vw', paddingTop: '10vh', }}>
+        <ToastContainer/>
         <img src={logo} className="logo" alt="logo" />
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{content}</div>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          {content}
+          {footer}
+        </div>
       </div>
     );
   }
@@ -98,7 +141,7 @@ class Authentication extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    notification: state.global.notification
+    notification: state.notification
   };
 };
 

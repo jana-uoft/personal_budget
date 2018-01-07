@@ -4,7 +4,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
 
-class ResendConfirmation extends Component {
+class RequestPasswordReset extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,7 +20,7 @@ class ResendConfirmation extends Component {
 
   submit = (e) => {
     e.preventDefault();
-    this.props.resendConfirmation(this.state.email);
+    this.props.requestResetPassword(this.state.email);
   }
 
 
@@ -29,7 +29,7 @@ class ResendConfirmation extends Component {
       <form aria-label="resend confirmation" onSubmit={this.submit}>
         <TextField fullWidth value={this.state.email} onChange={(e,v)=>this.onChange(v,"email")} name="email" type="email" floatingLabelText="E-mail" required />
         <br /><br />
-        <RaisedButton label="Resend confirmation email" type="submit" name="submit" primary fullWidth />
+        <RaisedButton label="Request Password Reset" type="submit" name="submit" primary fullWidth />
       </form>
     );
 
@@ -37,10 +37,10 @@ class ResendConfirmation extends Component {
       <div>
         {form}
         <br/ >
-        <FlatButton default onClick={()=>this.props.toggleComponent('login')} label="Go Back" />
+        <FlatButton default onClick={()=>this.props.toggleComponent('login')} label="Go back" />
       </div>
     );
   }
 }
 
-export default ResendConfirmation;
+export default RequestPasswordReset;

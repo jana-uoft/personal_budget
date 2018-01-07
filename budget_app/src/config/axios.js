@@ -18,13 +18,11 @@ export const clientOptions = {
     ],
     response: [{
       success: function ({getState, dispatch, getSourceAction}, response) {
-        if (response.config.successMessage) dispatch({ type: "SHOW_NOTIFICATION", payload: {message: response.config.successMessage, type: "SUCCESS"} }); 
         return Promise.resolve(response.data);
       },
       error: function ({getState, dispatch, getSourceAction}, error) {
-        if (error.response && error.response.status!==422) dispatch({type: "BACKEND_SERVER_ERROR"});
-        if (error.status===0) dispatch({type: "BACKEND_SERVER_ERROR"});
-        if (error.config.errorMessage) dispatch({ type: "SHOW_NOTIFICATION", payload: {message: error.config.errorMessage, type: "ERROR"} }); 
+        if (error.response && error.response.status!==422) dispatch({type: "BACKEND_ERROR"});
+        if (error.status===0) dispatch({type: "AXIOS_ERROR"});
         return Promise.reject(error);
       }
     }]
