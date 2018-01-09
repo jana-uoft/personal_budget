@@ -45,11 +45,8 @@ class Authentication extends Component {
       } else if (this.props.location.pathname.includes("password")) {
         this.toggleComponent('resetPassword')
       }
-    } else {
-      if (this.props.user.authenticated) {
-        this.props.history.push('/dashboard');
-      }
     }
+    if (this.props.user.authenticated) this.props.history.push('/dashboard');
   }
 
 
@@ -63,7 +60,10 @@ class Authentication extends Component {
         autoClose: nextProps.notification.type==="SUCCESS" ? 10000 : false 
       });
     }
+    if (nextProps.user.authenticated) this.props.history.push('/dashboard');
   }
+
+
 
   toggleComponent = (component, componentProps) => {
     this.setState({ component, componentProps });
@@ -125,7 +125,7 @@ class Authentication extends Component {
     );
 
     return (
-      <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '1vw', paddingTop: '10vh', }}>
+      <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '1vw', paddingTop: '10vh' }}>
         <ToastContainer/>
         <img src={logo} className="logo" alt="logo" />
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>

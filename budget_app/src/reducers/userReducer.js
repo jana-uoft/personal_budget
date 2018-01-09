@@ -19,6 +19,9 @@ export default function userReducer(state=initialState, action) {
       state.authenticated = true;
       state.token = action.payload.jwt;
       break;
+    case 'LOGOUT_SUCCESS':
+      state = initialState;
+      break;
     default:
       break;
   }
