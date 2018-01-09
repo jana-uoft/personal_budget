@@ -19,10 +19,24 @@ class App extends Component {
     this.state = { loading: true };
   }
 
+  updateDimensions = () => {
+    let mobileView = window.innerWidth<=768;
+    if (store.getState().global.mobileView!==mobileView)
+      store.dispatch({type: 'RESIZE', payload: mobileView});
+  }
 
   componentWillMount() {
     // Display a custom loading on page refresh
     setTimeout(()=>{this.setState({ loading: false })}, 1500);
+    this.updateDimensions();
+  }
+
+  componentDidMount() { 
+    window.addEventListener("resize", this.updateDimensions);
+  }
+
+  componentWillUnmount() { 
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
 

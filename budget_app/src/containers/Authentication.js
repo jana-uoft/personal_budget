@@ -119,7 +119,7 @@ class Authentication extends Component {
     }
 
     let footer = (
-      <p style={{color: "#FFF", bottom: "0%", position: "fixed"}}>
+      <p style={{color: "#FFF", bottom: "0%", position: "fixed", zIndex: '-1'}}>
         <a href="https://www.jana19.org/" target="_blank" rel="noopener noreferrer" style={{textDecoration: "none", color: "inherit"}}>© Jana Rajakumar</a>
       </p>
     );
@@ -141,7 +141,7 @@ class Authentication extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    notification: state.notification
+    notification: state.global.notification
   };
 };
 
