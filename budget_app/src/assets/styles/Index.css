@@ -5,6 +5,7 @@ html, body {
 body {
   background: linear-gradient(178deg, #010504, #256555);
   overflow: hidden;
+  margin: 0;
 }
 
 .logo {

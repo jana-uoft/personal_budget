@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import logo from '../assets/images/logo.svg';
 import RaisedButton from 'material-ui/RaisedButton';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
-import Paper from 'material-ui/Paper';
 import ArrowForwardIcon from 'material-ui-icons/ArrowForward';
 
 
@@ -35,33 +34,33 @@ class Dashboard extends Component {
     let mobileFooter;
     if (this.props.mobileView) {
       mobileFooter = (
-        <Paper zDepth={1} style={{bottom: "0%", position: "fixed", zIndex: '10', width: '98vw'}}>
-          <BottomNavigation selectedIndex={this.state.mobileFooterIndex}>
+          <BottomNavigation selectedIndex={this.state.mobileFooterIndex} style={{bottom: "0vh", position: "fixed", zIndex: '10'}}>
             <BottomNavigationItem
-              label="Recents"
+              label="Bla"
               icon={<ArrowForwardIcon />}
               onClick={() => this.select(0)}
             />
             <BottomNavigationItem
-              label="Favorites"
+              label="La"
               icon={<ArrowForwardIcon />}
               onClick={() => this.select(1)}
             />
             <BottomNavigationItem
-              label="Nearby"
+              label="Boo"
               icon={<ArrowForwardIcon />}
               onClick={() => this.select(2)}
             />
           </BottomNavigation>
-        </Paper>
       );
     }
 
     return (
       <div>
-        <img src={logo} className="logo" alt="logo" />
-        <h1 className="App-title">Dashboard</h1>
-        <RaisedButton label="logout" primary fullWidth onClick={this.props.logout}/>
+        <div style={{ alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '1vw', paddingTop: '10vh' }}>
+          <img src={logo} className="logo" alt="logo" />
+          <h1 className="App-title" style={{color: "#FFF"}}>Dashboard</h1>
+          <RaisedButton label="logout" primary onClick={this.props.logout} style={{height: 50}}/>
+        </div>
         {mobileFooter}
       </div>
     );
