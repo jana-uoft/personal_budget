@@ -55,7 +55,7 @@ class Authentication extends Component {
       toast.dismiss();
       toast(nextProps.notification.message, {
         type: toast.TYPE[nextProps.notification.type], 
-        position: toast.POSITION.BOTTOM_CENTER, 
+        position: toast.POSITION.TOP_CENTER, 
         onClose: nextProps.clearNotification,  
         autoClose: nextProps.notification.type==="SUCCESS" ? 10000 : false 
       });
@@ -119,7 +119,7 @@ class Authentication extends Component {
     }
 
     let footer = (
-      <p style={{color: "#FFF", bottom: "0%", position: "fixed", zIndex: '-1'}}>
+      <p style={{color: "#FFF", bottom: "0%", position: "absolute", zIndex: '-1'}}>
         <a href="https://www.jana19.org/" target="_blank" rel="noopener noreferrer" style={{textDecoration: "none", color: "inherit"}}>© Jana Rajakumar</a>
       </p>
     );
